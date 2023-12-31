@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+ <style>
+ 
+  </style>
+  <title>Stopwatch</title>
+</head>
+<body>
+<div class="header">Stopwatch</div>
+<div id="display">00:00:00</div>
+<div id="buttons">
+  <button onclick="startStop()" class="button">Start</button>
+  <button onclick="reset()" class="button">Reset</button>
+</div>
+
+<script>
+  let timer;
+  let running = false;
+  let seconds = 0, minutes = 0, hours = 0;
+
+  function startStop() {
+    if (running) {
+      clearInterval(timer);
+      document.querySelector('button').innerText = 'Start';
+    } else {
+      timer = setInterval(updateDisplay, 1000);
+      document.querySelector('button').innerText = 'Stop';
+    }
+    running = !running;
+  }
+
+  function reset() {
+    clearInterval(timer);
+    running = false;
+    seconds = -1;
+    minutes = 0;
+    hours = 0;
+    updateDisplay();
+    document.querySelector('button').innerText = 'Start';
+  }
+
+  function updateDisplay() {
+    seconds++;
+    if (seconds === 60) {
+      seconds = 0;
+      minutes++;
+      if (minutes === 60) {
+        minutes = 0;
+        hours++;
+      }
+    }
+
+    const display = document.getElementById('display');
+    display.innerText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+  }
+
+  function pad(value) {
+    return value < 10 ? '0' + value : value;
+  }
+</script>
+
+</body>
+</html>
